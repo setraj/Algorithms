@@ -2,7 +2,9 @@
 /**
  Given a 2d matrix filled with numbers. 
  Print all the possible combinations of numbers of length K, from a given cell.
+ https://ide.geeksforgeeks.org/2xeeIRj0vf
 ***/
+
 
 #include<bits/stdc++.h>
 using namespace std;
@@ -20,7 +22,7 @@ void print(vector<int>p){
     }
     cout<<"\n";
 }
-void numberOfPaths(int m, int n, int count[][3],int v[][3],int size,int x,int y, vector<int>&p)
+void numberOfPaths(int m, int n, int count[][3],int v[][3],int k,int x,int y, vector<int>&p)
 {
     if(!isValid(x,y))
       return;
@@ -32,21 +34,19 @@ void numberOfPaths(int m, int n, int count[][3],int v[][3],int size,int x,int y,
     v[x][y] = 1;
 	p.push_back(count[x][y]);
 	
-	numberOfPaths(m,n,count,v,size-1,x,y-1,p);
-	numberOfPaths(m,n,count,v,size-1,x,y+1,p);
-	numberOfPaths(m,n,count,v,size-1,x-1,y,p);
-	numberOfPaths(m,n,count,v,size-1,x+1,y,p);
+	numberOfPaths(m,n,count,v,k-1,x,y-1,p);
+	numberOfPaths(m,n,count,v,k-1,x,y+1,p);
+	numberOfPaths(m,n,count,v,k-1,x-1,y,p);
+	numberOfPaths(m,n,count,v,k-1,x+1,y,p);
 	
 	//print the combination
-	if(size == 1){
+	if(k == 1){
         print(p);
     }
     //mark unvisited
     v[x][y] = 0;
 	p.pop_back();
 }
-
-
 int main()
 {   int count[3][3]; // contains numbers
     int v[3][3]; // contains visited & unvisited info.
@@ -58,8 +58,8 @@ int main()
         }
     }
     std::vector<int>path ;
-    int size=6;
-    int s=1,e=2;
-	numberOfPaths(3, 3,count,v,size,s,e,path);
+    int k=6;
+    int x=1,y=2;
+	numberOfPaths(3, 3,count,v,k,x,y,path);
 	return 0;
 }
