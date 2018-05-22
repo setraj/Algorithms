@@ -1,0 +1,65 @@
+
+/**
+ Given a 2d matrix filled with numbers. 
+ Print all the possible combinations of numbers of length K, from a given cell.
+***/
+
+#include<bits/stdc++.h>
+using namespace std;
+
+ //funciton to check the validity of the cell 
+bool isValid(int x,int y){
+    if(x<3 && x>=0 && y<3 && y>=0) 
+      return true;
+return false;
+}
+// print the combination
+void print(vector<int>p){
+    for(vector<int>::iterator it = p.begin(); it!=p.end(); it++){
+        cout<<*it<<" ";
+    }
+    cout<<"\n";
+}
+void numberOfPaths(int m, int n, int count[][3],int v[][3],int size,int x,int y, vector<int>&p)
+{
+    if(!isValid(x,y))
+      return;
+    
+    if(v[x][y] == 1){
+        return;
+    }
+    // mark visited
+    v[x][y] = 1;
+	p.push_back(count[x][y]);
+	
+	numberOfPaths(m,n,count,v,size-1,x,y-1,p);
+	numberOfPaths(m,n,count,v,size-1,x,y+1,p);
+	numberOfPaths(m,n,count,v,size-1,x-1,y,p);
+	numberOfPaths(m,n,count,v,size-1,x+1,y,p);
+	
+	//print the combination
+	if(size == 1){
+        print(p);
+    }
+    //mark unvisited
+    v[x][y] = 0;
+	p.pop_back();
+}
+
+
+int main()
+{   int count[3][3]; // contains numbers
+    int v[3][3]; // contains visited & unvisited info.
+    int c=0;
+    for(int i=0; i<3;i++){
+        for(int j=0; j<3; j++){
+            count[i][j] = c++;
+            v[i][j] = 0;
+        }
+    }
+    std::vector<int>path ;
+    int size=6;
+    int s=1,e=2;
+	numberOfPaths(3, 3,count,v,size,s,e,path);
+	return 0;
+}
